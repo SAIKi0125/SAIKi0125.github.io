@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>孙艺恺 | SAIKi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050807;
+            --bg-elevated: #0c1210;
+            --bg-card: #111916;
+            --border: rgba(255, 255, 255, 0.06);
+            --border-hover: rgba(74, 222, 128, 0.3);
+            --text: #ededed;
+            --text-secondary: #8a9190;
+            --text-muted: #4a5250;
+            --accent: #4ade80;
+            --accent-dim: rgba(74, 222, 128, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 28px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 18px 0;
+            background: rgba(5, 8, 7, 0.9);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--accent);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Hero - Centered Style */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 28px;
+            position: relative;
+        }
+
+        .hero-top {
+            position: absolute;
+            top: 100px;
+            left: 40px;
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent);
+            letter-spacing: 0.1em;
+            opacity: 0;
+            animation: fadeIn 0.8s ease 0.2s forwards;
+        }
+
+        .hero-main {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeIn 0.8s ease 0.4s forwards;
+        }
+
+        .hero-main h1 {
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: clamp(3rem, 10vw, 8rem);
+            font-weight: 600;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+
+        .hero-main h1 .chinese {
+            display: block;
+            font-weight: 300;
+            color: var(--text-secondary);
+        }
+
+        .hero-main .subtitle {
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            letter-spacing: 0.15em;
+        }
+
+        .hero-tags {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 48px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.6s ease 0.6s forwards;
+        }
+
+        .hero-tag {
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.75rem;
+            padding: 8px 16px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .hero-tag:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .hero-bottom {
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .hero-links {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 48px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.6s ease 0.7s forwards;
+        }
+
+        .btn {
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.75rem;
+            padding: 8px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        .btn-primary:hover {
+            background: #22c55e;
+            box-shadow: 0 4px 20px var(--accent-dim);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* Sections */
+        section {
+            padding: 100px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .section-label {
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 40px;
+            letter-spacing: -0.02em;
+        }
+
+        /* Projects */
+        .project-list {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px 32px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--accent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .project-name {
+            font-size: 1.05rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .project-card:hover .project-name {
+            color: var(--accent);
+        }
+
+        .project-link {
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .project-link:hover {
+            color: var(--accent);
+        }
+
+        .project-desc {
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.7rem;
+            padding: 4px 10px;
+            background: var(--bg-elevated);
+            border-radius: 4px;
+            color: var(--text-muted);
+            transition: all 0.2s ease;
+        }
+
+        .tag:hover {
+            background: var(--accent-dim);
+            color: var(--accent);
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .skill-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px 24px;
+            transition: all 0.3s ease;
+        }
+
+        .skill-item:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+
+        .skill-name {
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+            letter-spacing: 0.05em;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .skill-tag {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            transition: color 0.2s;
+        }
+
+        .skill-tag:hover {
+            color: var(--accent);
+        }
+
+        /* Contact */
+        .contact-section {
+            text-align: left;
+            padding: 100px 0;
+        }
+
+        .contact-title {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .contact-desc {
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 10px 18px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            transition: all 0.25s ease;
+        }
+
+        .contact-link:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            box-shadow: 0 0 20px var(--accent-dim);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        footer p {
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Cursor glow */
+        .glow {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--accent-dim) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .glow.visible {
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .nav-links {
+                display: none;
+            }
+            .hero-top {
+                left: 20px;
+                top: 80px;
+            }
+            .hero-bottom {
+                right: 20px;
+                bottom: 20px;
+            }
+            .project-header {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="glow" id="glow"></div>
+
+    <nav>
+        <div class="container">
+            <a href="#" class="nav-logo">saiki</a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <span class="hero-top">ROBOCON · QUADRUPED ROBOT · RL</span>
+        <div class="hero-main">
+            <h1>SAIKi</h1>
+            <p class="subtitle">ROBOCON 无贰战队马术队队长</p>
+        </div>
+        <div class="hero-tags">
+            <span class="hero-tag">四足机器人</span>
+            <span class="hero-tag">触觉传感</span>
+            <span class="hero-tag">强化学习</span>
+        </div>
+        <div class="hero-links">
+            <a href="https://github.com/SAIKi0125" class="btn btn-primary">GitHub</a>
+            <a href="#contact" class="btn btn-secondary">联系方式</a>
+        </div>
+        <span class="hero-bottom">01</span>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <div class="fade-up">
+                <p class="section-label">02 — About</p>
+                <h2 class="section-title">关于我</h2>
+            </div>
+            <div class="about-text fade-up">
+                <p style="margin-bottom: 16px;">
+                    华东理工大学过程装备与控制工程专业本科生。ROBOCON 无贰战队马术队队长，
+                    负责 2025-2026 赛季"仿生足式"赛题整体技术方案与进度统筹。
+                </p>
+                <p>
+                    研究重点是四足机器人的强化学习训练与 Sim2Real 域迁移。同时参与触觉传感器
+                    在机械臂精细操作中的应用研究，基于 Isaac Sim 实现仿真-训练-迁移方法链路。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="container">
+            <div class="fade-up">
+                <p class="section-label">03 — Projects</p>
+                <h2 class="section-title">项目经历</h2>
+            </div>
+            <div class="project-list">
+                <div class="project-card fade-up">
+                    <div class="project-header">
+                        <h3 class="project-name">ROBOCON 无贰战队马术队</h3>
+                        <a href="https://github.com/SAIKi0125" class="project-link">GitHub →</a>
+                    </div>
+                    <p class="project-desc">
+                        2025-2026 赛季"仿生足式"赛题。主导四足机器人运动控制与强化学习控制框架设计，
+                        采用教师-学生蒸馏方法完成策略训练，开展 Sim2Real 迁移探索。
+                    </p>
+                    <div class="project-tags">
+                        <span class="tag">Isaac Gym</span>
+                        <span class="tag">PPO</span>
+                        <span class="tag">Sim2Real</span>
+                    </div>
+                </div>
+                <div class="project-card fade-up">
+                    <div class="project-header">
+                        <h3 class="project-name">融合视触觉感知的机械臂精细操作</h3>
+                        <a href="https://github.com/SAIKi0125" class="project-link">GitHub →</a>
+                    </div>
+                    <p class="project-desc">
+                        基于 Isaac Sim 搭建仿真环境，集成 Tac3D 触觉传感器，
+                        采用 AACD 与域随机化方法训练模型，形成感知-决策-迁移方法链路。
+                    </p>
+                    <div class="project-tags">
+                        <span class="tag">Isaac Sim</span>
+                        <span class="tag">Tac3D</span>
+                        <span class="tag">AACD</span>
+                    </div>
+                </div>
+                <div class="project-card fade-up">
+                    <div class="project-header">
+                        <h3 class="project-name">ROBOCON 飞身上篮</h3>
+                        <a href="https://github.com/SAIKi0125" class="project-link">GitHub →</a>
+                    </div>
+                    <p class="project-desc">
+                        电控组组长。负责 R2 整体控制系统与 R1 发射模块电控开发，
+                        完成底盘运动学建模、IMU 姿态融合控制。获全国二等奖，最佳技术奖。
+                    </p>
+                    <div class="project-tags">
+                        <span class="tag">STM32</span>
+                        <span class="tag">FreeRTOS</span>
+                        <span class="tag">PID/FOC</span>
+                    </div>
+                </div>
+                <div class="project-card fade-up">
+                    <div class="project-header">
+                        <h3 class="project-name">ROBOCON 武林探秘</h3>
+                        <a href="https://github.com/SAIKi0125" class="project-link">GitHub →</a>
+                    </div>
+                    <p class="project-desc">
+                        副队长、项目管理。负责整体技术方案统筹与项目进度管理，协调机械组、电控组、算法组协同工作。
+                    </p>
+                    <div class="project-tags">
+                        <span class="tag">项目管理</span>
+                        <span class="tag">团队协作</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <div class="container">
+            <div class="fade-up">
+                <p class="section-label">04 — Skills</p>
+                <h2 class="section-title">技术栈</h2>
+            </div>
+            <div class="skills-grid fade-up">
+                <div class="skill-item">
+                    <p class="skill-name">编程语言</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">C/C++</span>
+                        <span class="skill-tag">Python</span>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <p class="skill-name">嵌入式</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">STM32</span>
+                        <span class="skill-tag">FreeRTOS</span>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <p class="skill-name">仿真平台</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Isaac Gym</span>
+                        <span class="skill-tag">Isaac Sim</span>
+                        <span class="skill-tag">PyBullet</span>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <p class="skill-name">电机控制</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">PID</span>
+                        <span class="skill-tag">FOC</span>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <p class="skill-name">研究方向</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">强化学习</span>
+                        <span class="skill-tag">Sim2Real</span>
+                        <span class="skill-tag">触觉传感</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="fade-up">
+                <p class="section-label">05 — Contact</p>
+                <h2 class="contact-title">联系方式</h2>
+                <p class="contact-desc">欢迎学术交流与合作讨论</p>
+                <div class="contact-links">
+                    <a href="mailto:2323845679@qq.com" class="contact-link">2323845679@qq.com</a>
+                    <a href="https://github.com/SAIKi0125" class="contact-link">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 孙艺恺</p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -30px 0px'
+        });
+
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+        // Cursor glow
+        const glow = document.getElementById('glow');
+        document.addEventListener('mousemove', (e) => {
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+            glow.classList.add('visible');
+        });
+    </script>
+</body>
+</html>
